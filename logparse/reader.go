@@ -27,8 +27,8 @@ func (r *csvEntryReader) ReadEntry() (Entry, error) {
 		return Entry{}, err
 	}
 
-	if len(record) != 2 {
-		return Entry{}, fmt.Errorf("got %d columns in a log entry: %w", len(record), ErrInvalidFormat)
+	if len(record) < 2 {
+		return Entry{}, fmt.Errorf("got %d columns in a log entry: %w", len(record), ErrInvalidCSVFormat)
 	}
 
 	t, err := time.Parse(time.RFC3339, record[1])
