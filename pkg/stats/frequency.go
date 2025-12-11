@@ -1,10 +1,11 @@
 package stats
 
 import (
+	"fmt"
 	"io"
 	"time"
 
-	"cookie-cli/logparse"
+	"cookie-cli/pkg/logparse"
 )
 
 func FindMostFrequent(reader logparse.EntryReader, dateToSearchFrom, dateToSearchTo time.Time) ([]string, error) {
@@ -16,7 +17,7 @@ func FindMostFrequent(reader logparse.EntryReader, dateToSearchFrom, dateToSearc
 			break
 		}
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("error reading entry from reader: %w", err)
 		}
 
 		if entry.Timestamp.After(dateToSearchTo) {
