@@ -16,8 +16,11 @@ type csvEntryReader struct {
 }
 
 func NewCSVEntryReader(r io.Reader) EntryReader {
+	csvR := csv.NewReader(r)
+	_, _ = csvR.Read()
+
 	return &csvEntryReader{
-		csvReader: csv.NewReader(r),
+		csvReader: csvR,
 	}
 }
 
