@@ -9,9 +9,12 @@ import (
 )
 
 func main() {
-	options, err := argparse.Parse()
+	options, err := argparse.Parse(os.Args[1:])
 	if err != nil {
 		fmt.Printf("Error parsing arguments: %v\n", err)
+		return
+	}
+	if options == nil {
 		return
 	}
 

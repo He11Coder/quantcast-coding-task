@@ -1,6 +1,7 @@
 package argparse
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"time"
@@ -11,12 +12,21 @@ type Options struct {
 	Date     time.Time
 }
 
-func Parse() (*Options, error) {
+func Parse(args []string) (*Options, error) {
 	var filename, date string
 
-	flag.StringVar(&filename, "f", "", "Cookie log file name to process")
-	flag.StringVar(&date, "d", "", "Date in YYYY-MM-DD format to search")
-	flag.Parse()
+	flagSet := flag.NewFlagSet("cookie-tool", flag.ContinueOnError)
+
+	flagSet.StringVar(&filename, "f", "", "Cookie log file name to process")
+	flagSet.StringVar(&date, "d", "", "Date in YYYY-MM-DD format to search")
+
+	err := flagSet.Parse(args)
+	if err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("error parsing command line arguments: %w", err)
+	}
 
 	if (filename == "") || (date == "") {
 		return nil, fmt.Errorf("-f is '%s', -d is '%s': %w", filename, date, ErrMissedRequiredArg)
