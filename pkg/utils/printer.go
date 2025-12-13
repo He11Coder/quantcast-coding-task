@@ -5,6 +5,7 @@ import (
 	"io"
 )
 
+// PrintResults prints cookies iteratively (one by one) to writer w appending \n after each item.
 func PrintResults(w io.Writer, cookies []string) error {
 	for _, cookie := range cookies {
 		_, err := fmt.Fprintln(w, cookie)

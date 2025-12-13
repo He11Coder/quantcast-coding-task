@@ -10,7 +10,12 @@ import (
 	"cookie-cli/pkg/utils"
 )
 
+// RunCommand runs the tool's pipeline:
+// creates a 1-day time window ([date; date+24hrs)) and invokes FindMostFrequent function
+// to search for the most active cookie(s) within the time window among all of the cookies from reader.
+// The result is written into writer.
 func RunCommand(reader logparse.EntryReader, writer io.Writer, date time.Time) error {
+	//create a 1-day time window
 	dateToSearchFrom := date
 	dateToSearchTo := date.Add(24 * time.Hour).Add(-1 * time.Nanosecond)
 
