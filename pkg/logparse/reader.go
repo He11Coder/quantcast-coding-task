@@ -41,6 +41,6 @@ func (r *csvEntryReader) ReadEntry() (Entry, error) {
 
 	return Entry{
 		Cookie:    record[0],
-		Timestamp: t,
+		Timestamp: t.UTC(),
 	}, nil
 }
